@@ -4,6 +4,8 @@
 #![allow(non_upper_case_globals)]
 #![allow(non_snake_case)]
 
+pub mod ffi;
+
 use std::mem::transmute;
 use std::num::Wrapping;
 
@@ -67,6 +69,8 @@ static tinytens : [f64; 5] = [
 ///
 /// This implementation is a translation from
 /// http://mxr.mozilla.org/mozilla-central/source/js/src/dtoa.c.
+///
+/// Return : It returns the floating point number and the number of character needed to build that number
 pub fn strtod(input: &str) -> Option<(f64, usize)> {
 	let mut parser = Parser {
 		sign: false,
@@ -581,7 +585,7 @@ impl Parser {
 	 				aadj1.d = 1_f64;
 	 			} else if self.rv.word1() != 0 || self.rv.word0() & Bndry_mask != 0 {
 	 				if self.rv.word1() == Tiny1 && self.rv.word0() == 0 {
-	 					self.rv.d == 0_f64;
+	 					self.rv.d = 0_f64;
 	 					return true;
 	 				}
 	 				
